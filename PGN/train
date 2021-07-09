@@ -1,0 +1,47 @@
+send picture on fucking gmail	now => @com.gmail.send_picture
+send a tagged gif to EMAIL_ADDRESS_0	now => @com.giphy.get => @com.gmail.send_picture param:to:Entity(tt:email_address) = EMAIL_ADDRESS_0 on param:picture_url:Entity(tt:picture) = param:picture_url:Entity(tt:picture)
+notify me when there is a new video from youtube channels that i follow	monitor ( @com.youtube.list_videos ) => notify
+read a wsj article	now => @com.wsj.get => notify
+notify me when bob emails me	"monitor ( ( @com.gmail.inbox ) filter param:sender_address:Entity(tt:email_address) == "" bob "" ^^tt:username ) => notify"
+translate websites matching foo	"now => ( @com.bing.web_search param:query:String = "" foo "" ) join ( @com.yandex.translate.translate ) on param:text:String = param:title:String => notify"
+search meltdown on twitter .	"now => ( @com.twitter.search ) filter param:text:String =~ "" meltdown "" => notify"
+post my tweets on facebook	now => @com.twitter.my_tweets => @com.facebook.post on param:status:String = event
+turn on lifeshield lights when my nest camera detects sound or motion	monitor ( ( @security-camera.current_event ) filter param:has_sound:Boolean == true or param:has_motion:Boolean == true ) => @light-bulb.set_power param:power:Enum(on,off) = enum:on
+call mom	"now => @org.thingpedia.builtin.thingengine.phone.call param:number:Entity(tt:phone_number) = "" mom "" ^^tt:username"
+show me my emails	now => @com.gmail.inbox => notify
+get me a cat	now => @com.thecatapi.get => notify
+get sec camera snapshot	now => @security-camera.current_event => notify
+get an iced latte	now => @org.thingpedia.demo.coffee.order param:beverage:Enum(drip_coffee,espresso,latte,flat_white,mocha,caramel_mocha,white_mocha,macchiato,caramel_macchiato,cappuccino,americano) = enum:latte param:iced:Boolean = true
+turn on the tv	now => @com.lg.tv.webos2.set_power param:power:Enum(on,off) = enum:on
+get an xkcd comic	now => @com.xkcd.get_comic => notify
+turn on my tv	now => @com.lg.tv.webos2.set_power param:power:Enum(on,off) = enum:on
+send sms every day at TIME_0	attimer time = TIME_0 => @org.thingpedia.builtin.thingengine.phone.send_sms
+search kim jong un on twitter	"now => ( @com.twitter.search ) filter param:text:String =~ "" kim jong un "" => notify"
+when my location changes set phone to mute	monitor ( @org.thingpedia.builtin.thingengine.phone.get_gps ) => @org.thingpedia.builtin.thingengine.phone.set_ringer param:mode:Enum(normal,vibrate,silent) = enum:silent
+check my calendar and remind me of any meetings .	monitor ( @org.thingpedia.icalendar.list_events ) => notify
+turn off my thermostat when outside temperature is above NUMBER_0 c	edge ( monitor ( @org.thingpedia.weather.current param:location:Location = location:current_location ) ) on param:temperature:Measure(C) >= NUMBER_0 unit:C => @thermostat.set_hvac_mode param:mode:Enum(heat,cool,heat_cool,off) = enum:off
+search for something on twitter	now => @com.twitter.search => notify
+make my hue lights color loop	now => @light-bulb.color_loop
+list memes	now => @com.imgflip.list => notify
+get giphy with tag setamapy	"now => @com.giphy.get param:tag:Entity(tt:hashtag) = "" setamapy "" ^^tt:hashtag => notify"
+when receive message decrease volume on my speaker	monitor ( @org.thingpedia.builtin.thingengine.phone.sms ) => @org.thingpedia.bluetooth.speaker.a2dp.lower_volume
+warn me if it is going to snow	edge ( monitor ( @org.thingpedia.weather.current param:location:Location = location:current_location ) ) on param:status:Enum(raining,cloudy,sunny,snowy,sleety,drizzling,windy) == enum:snowy => notify
+flash the light	now => @light-bulb.alert_long
+tweet my current location	now => @org.thingpedia.builtin.thingengine.phone.get_gps => @com.twitter.post on param:status:String = event
+quickly let a slack channel know i 'm running late	"now => @com.slack.send param:message:String = "" i 'm running late """
+search channels matching buick	"now => @com.youtube.search_channel param:query:String = "" buick "" => notify"
+set my thermostat to cool if a new file is created on google drive	monitor ( @com.google.drive.list_drive_files param:order_by:Enum(created_time_increasing,created_time_decreasing,modified_time_increasing,modified_time_decreasing,name_increasing,name_decreasing) = enum:created_time_decreasing ) on new param:file_id:Entity(com.google.drive:file_id) => @thermostat.set_hvac_mode param:mode:Enum(heat,cool,heat_cool,off) = enum:cool
+set phone to vibrate	now => @org.thingpedia.builtin.thingengine.phone.set_ringer param:mode:Enum(normal,vibrate,silent) = enum:vibrate
+i want a small latte	now => @org.thingpedia.demo.coffee.order param:beverage:Enum(drip_coffee,espresso,latte,flat_white,mocha,caramel_mocha,white_mocha,macchiato,caramel_macchiato,cappuccino,americano) = enum:latte param:size:Enum(small,medium,large) = enum:small
+call 911	now => @org.thingpedia.builtin.thingengine.phone.call_emergency
+post on tumblr dude is hot if the temperature is more than NUMBER_0 f	"edge ( monitor ( @thermostat.get_temperature ) ) on param:value:Measure(C) >= NUMBER_0 unit:F => @com.tumblr.blog.post_text param:title:String = "" dude is hot """
+search videos matching autozone	"now => @com.youtube.search_videos param:query:String = "" autozone "" => notify"
+every DURATION_0 send message on slack to tenuous	"timer base = now , interval = DURATION_0 => @com.slack.send param:channel:Entity(tt:hashtag) = "" tenuous "" ^^tt:hashtag"
+list my files in google drive	now => @com.google.drive.list_drive_files => notify
+if i receive a message on slack then flash lights on hue	monitor ( @com.slack.channel_history ) => @light-bulb.alert_long
+notify me if i receive an email on gmail	monitor ( @com.gmail.inbox ) on new param:email_id:Entity(com.gmail:email_id) => notify
+when i total more than NUMBER_0 steps in a day , post on facebook about it	edge ( monitor ( @com.fitbit.getsteps ) ) on param:steps:Number >= NUMBER_0 => @com.facebook.post on param:status:String = event
+the weather .	now => @org.thingpedia.weather.current => notify
+do play music on my speaker	now => @org.thingpedia.bluetooth.speaker.a2dp.play_music
+call for help	now => @org.thingpedia.builtin.thingengine.phone.call_emergency
+get gif	now => @com.giphy.get => notify
